@@ -11,21 +11,19 @@
   <a href="docs/slides/Observability_Aware_Trust_Based_Grayhole_Detection_for_Underwater_Acoustic_Networks-4.pdf"><img src="https://img.shields.io/badge/Slides-PDF-EF6C00" alt="Slides (PDF)"></a>
 </p>
 
-
 ## Summary
 
 <details>
 <summary>Details</summary>
 
-| Category | Description |
-| --- | --- |
-| **Problem** | A grayhole relay drops some packets. The usual watchdog also accuses honest relays because underwater links naturally lose packets. |
+| Category         | Description                                                                                                                              |
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Problem**      | A grayhole relay drops some packets. The usual watchdog also accuses honest relays because underwater links naturally lose packets.      |
 | **Our solution** | The detector uses only the forwards that a monitor can hear. It compares them with the forwards that an honest relay sends on that link. |
-| **Tool** | UnetStack 7.0.0 simulator, with agents written in Groovy. |
-| **Result** | The detector finds 95% of grayholes. It accuses 0.3 honest relays per run, compared with 7.2 for the fixed watchdog. |
+| **Tool**         | UnetStack 7.0.0 simulator, with agents written in Groovy.                                                                                |
+| **Result**       | The detector finds 95% of grayholes. It accuses 0.3 honest relays per run, compared with 7.2 for the fixed watchdog.                     |
 
 </details>
-
 
 ## Team Details
 
@@ -42,10 +40,7 @@
 
 > **Member-2:** Aryan Bokolia, 241CS111, , [@yoman12357](https://github.com/yoman12357)
 
-> **Member-3:** Karthikeya Gupta, 241CS117, , [@karthikeyagupta108](https://github.com/karthikeyagupta108)
-
 </details>
-
 
 ## Abstract
 
@@ -68,6 +63,7 @@
 > Honest acoustic links also lose packets. Thus, a grayhole looks like a weak link.
 > The usual defence is a **watchdog**. A node listens to make sure that its next hop forwards each packet.
 > Under water, the watchdog often cannot hear the forward:
+>
 > - The modem cannot receive while it transmits.
 > - Collisions and damaged frames hide forwards that occurred.
 
@@ -103,20 +99,19 @@
 <details>
   <summary><b>Key Terms</b></summary>
 
-| Term | Meaning |
-| --- | --- |
-| Relay | A node that forwards packets from other nodes to the sink |
-| Grayhole | A relay that drops a part of the packets that it must forward (30% in our tests) |
-| Monitor | A neighbour node that listens to a relay |
-| Sink | The node at the surface that collects all data and runs the detector |
-| Watch window | One packet that the monitor expects the relay to forward |
-| Trust | Forwards heard ÷ forwards that an honest relay sends on that link |
-| Estimated drop | 1 − trust, shown as a percentage |
-| Round | 30 minutes. The sink makes one decision in each round. |
-| Suspect | A relay that the detector flags in two rounds in sequence |
+| Term           | Meaning                                                                          |
+| -------------- | -------------------------------------------------------------------------------- |
+| Relay          | A node that forwards packets from other nodes to the sink                        |
+| Grayhole       | A relay that drops a part of the packets that it must forward (30% in our tests) |
+| Monitor        | A neighbour node that listens to a relay                                         |
+| Sink           | The node at the surface that collects all data and runs the detector             |
+| Watch window   | One packet that the monitor expects the relay to forward                         |
+| Trust          | Forwards heard ÷ forwards that an honest relay sends on that link                |
+| Estimated drop | 1 − trust, shown as a percentage                                                 |
+| Round          | 30 minutes. The sink makes one decision in each round.                           |
+| Suspect        | A relay that the detector flags in two rounds in sequence                        |
 
 </details>
-
 
 ## Proposed Method
 
@@ -124,6 +119,7 @@
   <summary>Overview</summary>
 
 > The detector does three steps:
+>
 > 1. **Filter:** It removes each watch window that the monitor could not observe.
 > 2. **Compare:** It compares the forwards heard with the forwards expected for that link distance.
 > 3. **Decide:** It flags a relay that has low trust. The relay becomes a suspect after two rounds in sequence. The network then sends traffic around the suspect, if another route is available.
@@ -173,13 +169,13 @@ flowchart TD
 <details>
   <summary>Improvement over the Baseline</summary>
 
-| Part | Fixed watchdog (baseline) | Our detector |
-| --- | --- | --- |
-| Evidence | Counts each forward that it does not hear as a miss | Removes the windows that the monitor could not observe |
-| Expected loss | Uses one fixed limit for all links | Uses the link distance and the usual loss in that area |
-| Decision | Accuses when more than 30% of forwards are missed | Uses a threshold set from the network, and two-round confirmation |
-| Many grayholes | Grayholes change the value of "usual loss" | Removes suspects from the "usual loss" value |
-| Response | Removes the accused relay | Sends traffic on another route, if a route is available |
+| Part           | Fixed watchdog (baseline)                           | Our detector                                                      |
+| -------------- | --------------------------------------------------- | ----------------------------------------------------------------- |
+| Evidence       | Counts each forward that it does not hear as a miss | Removes the windows that the monitor could not observe            |
+| Expected loss  | Uses one fixed limit for all links                  | Uses the link distance and the usual loss in that area            |
+| Decision       | Accuses when more than 30% of forwards are missed   | Uses a threshold set from the network, and two-round confirmation |
+| Many grayholes | Grayholes change the value of "usual loss"          | Removes suspects from the "usual loss" value                      |
+| Response       | Removes the accused relay                           | Sends traffic on another route, if a route is available           |
 
 </details>
 
@@ -199,13 +195,13 @@ flowchart TD
 
 ![Comparison of all methods](results/figs/fig1_before_after.png)
 
-| Method | Grayholes found | Honest relays accused per run | Delivery ratio | Throughput |
-| --- | ---: | ---: | ---: | ---: |
-| No attack | – | – | 57.0% | 228.6 pkt/h |
-| Attack, no defence | 0% | 0 | 45.6% | 186.8 pkt/h |
-| Fixed watchdog | 100% | 7.2 | 47.0% | 190.6 pkt/h |
-| CAD-style detector | 58% | 0.8 | 48.0% | 193.3 pkt/h |
-| **Our detector** | **95%** | **0.3** | **49.7%** | **200.5 pkt/h** |
+| Method             | Grayholes found | Honest relays accused per run | Delivery ratio |      Throughput |
+| ------------------ | --------------: | ----------------------------: | -------------: | --------------: |
+| No attack          |               – |                             – |          57.0% |     228.6 pkt/h |
+| Attack, no defence |              0% |                             0 |          45.6% |     186.8 pkt/h |
+| Fixed watchdog     |            100% |                           7.2 |          47.0% |     190.6 pkt/h |
+| CAD-style detector |             58% |                           0.8 |          48.0% |     193.3 pkt/h |
+| **Our detector**   |         **95%** |                       **0.3** |      **49.7%** | **200.5 pkt/h** |
 
 > - The fixed watchdog finds all grayholes. But it also accuses 7.2 honest relays per run.
 > - Our detector accuses **96% fewer** honest relays than the fixed watchdog.
@@ -218,6 +214,7 @@ flowchart TD
   <summary>False Accusations When Traffic Increases</summary>
 
 ![False accusations](results/figs/fig2_false_accusations.png)
+
 > More traffic causes more collisions. The fixed watchdog counts these collisions as drops.
 
 </details>
@@ -226,6 +223,7 @@ flowchart TD
   <summary>Detection on Each Scenario</summary>
 
 ![Detection](results/figs/fig3_detection.png)
+
 > (a) All methods use the same false-alarm limit. (b) Each method uses its own threshold.
 
 </details>
@@ -251,6 +249,7 @@ rank  node  est. drop (%)   trust   decision   truth
   <summary>Network Performance</summary>
 
 ![Network performance](results/figs/fig5_network_performance.png)
+
 > Delivery decreases when the attack starts. Delivery increases again when traffic goes around the grayholes. The report traffic is included.
 
 </details>
@@ -323,11 +322,11 @@ topology 201, 3 grayhole(s) [10, 12, 17], load 0.005, ours: delivery 59.4%, susp
 <details>
   <summary>All Commands</summary>
 
-| Command | Function | Time |
-| --- | --- | ---: |
-| `./run.sh demo` | Runs one network and prints the ranked suspect list | Approximately 3 minutes |
-| `./run.sh` | Tests the detector, compares all methods, runs the live networks and makes the graphs | Approximately 1 hour |
-| `./run.sh record` | Records new evidence, then does the full run | Several hours |
+| Command           | Function                                                                              |                    Time |
+| ----------------- | ------------------------------------------------------------------------------------- | ----------------------: |
+| `./run.sh demo`   | Runs one network and prints the ranked suspect list                                   | Approximately 3 minutes |
+| `./run.sh`        | Tests the detector, compares all methods, runs the live networks and makes the graphs |    Approximately 1 hour |
+| `./run.sh record` | Records new evidence, then does the full run                                          |           Several hours |
 
 > Run all commands from the repository root.
 
@@ -356,7 +355,6 @@ grayhole-sentinel/
 ```
 
 </details>
-
 
 ## Limitations
 
@@ -388,13 +386,13 @@ grayhole-sentinel/
 <details>
   <summary>Detail</summary>
 
-> 1. I. F. Akyildiz, D. Pompili and T. Melodia, "Underwater acoustic sensor networks: research challenges," *Ad Hoc Networks*, vol. 3, no. 3, pp. 257–279, 2005.
-> 2. S. Marti, T. J. Giuli, K. Lai and M. Baker, "Mitigating routing misbehavior in mobile ad hoc networks," in *Proc. ACM MobiCom*, 2000, pp. 255–265.
-> 3. B. R. Chandavarkar and N. Suresh, "Demonstration of selective forwarding attack and detection mechanism in UnetStack3," in *Proc. ICCCNT*, 2021, pp. 1–6.
-> 4. D. M. Shila, Y. Cheng and T. Anjali, "Channel-aware detection of gray hole attacks in wireless mesh networks," in *Proc. IEEE GLOBECOM*, 2009.
-> 5. G. Han, J. Jiang, L. Shu and M. Guizani, "An attack-resistant trust model based on multidimensional trust metrics in underwater acoustic sensor network," *IEEE Trans. Mobile Computing*, vol. 14, no. 12, pp. 2447–2459, 2015.
-> 6. C. Liu, J. Ye, F. An and W. Jiang, "An adaptive trust evaluation model for detecting abnormal nodes in underwater acoustic sensor networks," *Sensors*, vol. 24, no. 9, art. 2880, 2024.
-> 7. M. Chitre, R. Bhatnagar and W.-S. Soh, "UnetStack: an agent-based software stack and simulator for underwater networks," in *Proc. IEEE OCEANS*, 2014.
+> 1. I. F. Akyildiz, D. Pompili and T. Melodia, "Underwater acoustic sensor networks: research challenges," _Ad Hoc Networks_, vol. 3, no. 3, pp. 257–279, 2005.
+> 2. S. Marti, T. J. Giuli, K. Lai and M. Baker, "Mitigating routing misbehavior in mobile ad hoc networks," in _Proc. ACM MobiCom_, 2000, pp. 255–265.
+> 3. B. R. Chandavarkar and N. Suresh, "Demonstration of selective forwarding attack and detection mechanism in UnetStack3," in _Proc. ICCCNT_, 2021, pp. 1–6.
+> 4. D. M. Shila, Y. Cheng and T. Anjali, "Channel-aware detection of gray hole attacks in wireless mesh networks," in _Proc. IEEE GLOBECOM_, 2009.
+> 5. G. Han, J. Jiang, L. Shu and M. Guizani, "An attack-resistant trust model based on multidimensional trust metrics in underwater acoustic sensor network," _IEEE Trans. Mobile Computing_, vol. 14, no. 12, pp. 2447–2459, 2015.
+> 6. C. Liu, J. Ye, F. An and W. Jiang, "An adaptive trust evaluation model for detecting abnormal nodes in underwater acoustic sensor networks," _Sensors_, vol. 24, no. 9, art. 2880, 2024.
+> 7. M. Chitre, R. Bhatnagar and W.-S. Soh, "UnetStack: an agent-based software stack and simulator for underwater networks," in _Proc. IEEE OCEANS_, 2014.
 
 </details>
 
