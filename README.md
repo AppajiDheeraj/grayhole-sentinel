@@ -40,6 +40,8 @@
 
 > **Member-2:** Aryan Bokolia, 241CS111, , [@yoman12357](https://github.com/yoman12357)
 
+> **Member-3:** Karthikeya Gupta, 241CS117, , [@karthikeyagupta108](https://github.com/karthikeyagupta108)
+
 </details>
 
 ## Abstract
