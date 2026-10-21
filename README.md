@@ -38,9 +38,9 @@
 
 > **Member-1:** Appaji Nagaraja Dheeraj, 241CS110, [appajidheeraj.241cs110@nitk.edu.in](mailto:appajidheeraj.241cs110@nitk.edu.in), [@AppajiDheeraj](https://github.com/AppajiDheeraj)
 
-> **Member-2:** Aryan Bokolia, 241CS111, , [@yoman12357](https://github.com/yoman12357)
+> **Member-2:** Aryan Bokolia, 241CS111, [aryanbokolia.241cs111@nitk.edu.in](mailto:aryanbokolia.241cs111@nitk.edu.in), [@yoman12357](https://github.com/yoman12357)
 
-> **Member-3:** Karthikeya Gupta, 241CS117, , [@karthikeyagupta108](https://github.com/karthikeyagupta108)
+> **Member-3:** Karthikeya Gupta, 241CS117, [karthikeyagupta.241cs117@nitk.edu.in](mailto:karthikeyagupta.241cs117@nitk.edu.in), [@karthikeyagupta108](https://github.com/karthikeyagupta108)
 
 </details>
 
